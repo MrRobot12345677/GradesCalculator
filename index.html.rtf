@@ -6,20 +6,15 @@
 <title>Мой средний балл</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
-
 body {
-    margin: 0;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background: #f2f4f7;
+    padding: 50px;
 }
 
 .container {
     max-width: 600px;
-    margin: 30px auto;
+    margin: auto;
     padding: 30px;
     background: white;
     border-radius: 20px;
@@ -34,6 +29,7 @@ input, button {
     width: 100%;
     padding: 14px;
     margin-top: 10px;
+    box-sizing: border-box;
     font-size: 16px;
     border-radius: 10px;
 }
@@ -60,6 +56,27 @@ button {
     font-size: 40px;
     font-weight: bold;
 }
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        width: 100%;
+        margin: 20px auto;
+        padding: 22px 18px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    input, button {
+        font-size: 18px;
+        padding: 15px;
+    }
+}
 </style>
 </head>
 
@@ -72,35 +89,50 @@ button {
 <p>Введи свои оценки</p>
 
 <input id="subject" placeholder="Предмет">
+
 <input id="grades" placeholder="5, 4, 5, 3">
 
 <button onclick="calculate()">Рассчитать</button>
 
 <div id="result" style="display:none">
+
 <h2 id="name"></h2>
+
 <div class="average" id="average"></div>
+
 <p id="message"></p>
+
 </div>
 
 </div>
 
 <script>
+
 let gradesInput = document.getElementById("grades");
 
 gradesInput.addEventListener("input", function() {
+
     let value = this.value.replace(/[^2-5]/g, "");
+
     let result = "";
 
     for (let i = 0; i < value.length; i++) {
+
         if (i > 0) result += ", ";
+
         result += value[i];
+
     }
 
     this.value = result;
 });
 
 function calculate() {
-    let grades = gradesInput.value.split(",").map(Number);
+
+    let text = gradesInput.value;
+
+    let grades = text.split(",").map(Number);
+
     let sum = 0;
 
     for (let grade of grades) {
@@ -110,19 +142,25 @@ function calculate() {
     let average = sum / grades.length;
 
     document.getElementById("result").style.display = "block";
+
     document.getElementById("name").textContent =
         document.getElementById("subject").value || "Мой предмет";
+
     document.getElementById("average").textContent =
         average.toFixed(2);
 
     if (average >= 4.6) {
+
         document.getElementById("message").textContent =
             "🎉 Средний балл уже 4.6 или выше!";
+
     } else {
+
         let fives = 0;
 
         while ((sum + fives * 5) /
                (grades.length + fives) < 4.6) {
+
             fives++;
         }
 
@@ -130,6 +168,7 @@ function calculate() {
             "🎯 Нужно ещё " + fives + " пятёрок до 4.6.";
     }
 }
+
 </script>
 
 </body>
